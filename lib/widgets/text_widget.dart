@@ -4,7 +4,13 @@ class MyTextWidget extends StatelessWidget {
   String? text;
   // late String text; - to samo co String? - zaciągnie ta daną potem
   Color? color;
-  MyTextWidget({this.text, this.color});
+  double? size;
+
+  MyTextWidget({
+    this.text,
+    this.color,
+    this.size,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +19,7 @@ class MyTextWidget extends StatelessWidget {
       style: TextStyle(
         color: color!,
         fontWeight: FontWeight.bold,
+        fontSize: size,
       ),
     );
   }
