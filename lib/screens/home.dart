@@ -2,6 +2,7 @@ import 'package:calculator/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -202,6 +203,8 @@ class _HomePageState extends State<HomePage> {
                             equation =
                                 equation!.substring(0, equation!.length - 1);
                           });
+                        } else if (icon.icon == TablerIcons.equal) {
+                          sumFunction();
                         }
                       }
                     }, index >= listButtons.length - 4 ? Colors.white : null);
@@ -211,6 +214,18 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  sumFunction() {
+    Parser p = Parser();
+    String input = equation!.replaceAll("x", "*");
+    Expression exp = p.parse(input);
+    ContextModel cm = ContextModel();
+    double eval = exp.evaluate(EvaluationType.REAL, cm);
+
+    setState(() {
+      sum = eval.toString();
+    });
   }
 
   Widget myButton(
