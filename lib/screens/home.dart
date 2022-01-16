@@ -26,24 +26,28 @@ class _HomePageState extends State<HomePage> {
       children: [
         const Icon(
           TablerIcons.plus,
-          size: 40,
+          size: 20,
           color: Colors.black,
         ),
         MyTextWidget(
-          size: 40,
+          size: 20,
           color: Colors.black,
           text: "/",
         ),
         const Icon(
           TablerIcons.minus,
-          size: 40,
+          size: 20,
           color: Colors.black,
         ),
       ],
     ),
     "0",
     ".",
-    "=",
+    Icon(
+      TablerIcons.equal,
+      size: 40,
+      color: Colors.black,
+    ),
     "1",
     "2",
     "3",
@@ -51,11 +55,7 @@ class _HomePageState extends State<HomePage> {
     "4",
     "5",
     "6",
-    Icon(
-      TablerIcons.equal,
-      size: 40,
-      color: Colors.black,
-    ),
+    "-",
     "7",
     "8",
     "9",
@@ -123,15 +123,20 @@ class _HomePageState extends State<HomePage> {
             // mainAxisAlignment: MainAxisAlignment.center,
 
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  MyTextWidget(
-                    text: equation,
-                    color: Colors.grey,
-                    size: 20,
-                  ),
-                ],
+              Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width - 16,
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    MyTextWidget(
+                      text: equation,
+                      color: Colors.grey,
+                      size: 20,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 20.0,
@@ -173,14 +178,31 @@ class _HomePageState extends State<HomePage> {
                       crossAxisCount: 4),
                   itemBuilder: (contx, index) {
                     return myButton(listButtons[index], () {
-                      // ignore: curly_braces_in_flow_control_structures
-                      if (listButtons[index] is String) {
-                        // if (int.tryParse(listButtons[index]) is int) {
+                      //  || -> or
+                      // && -> and
+                      if (listButtons[index] is String &&
+                          listButtons[index] != "CE" &&
+                          listButtons[index] != "C") {
                         setState(() {
                           equation = equation! + listButtons[index];
                         });
-                        // }
+                      }
 
+                      if (listButtons[index] is String &&
+                          listButtons[index] == "C") {
+                        setState(() {
+                          equation = "";
+                          sum = "0";
+                        });
+                      }
+                      if (listButtons[index] is Icon) {
+                        Icon icon = listButtons[index];
+                        if (icon.icon == TablerIcons.backspace) {
+                          setState(() {
+                            equation =
+                                equation!.substring(0, equation!.length - 1);
+                          });
+                        }
                       }
                     }, index >= listButtons.length - 4 ? Colors.white : null);
                   }),
