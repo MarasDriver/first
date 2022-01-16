@@ -1,44 +1,91 @@
 import 'package:calculator/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
   String equation = "EQUATION";
   String sum = "SUM";
+
+  List listButtons = [
+    "+/-",
+    "0",
+    ".",
+    "=",
+    "1",
+    "2",
+    "3",
+    "+",
+    "4",
+    "5",
+    "6",
+    "-",
+    "7",
+    "8",
+    "9",
+    "x",
+    "CE",
+    "C",
+    "BS",
+    "/"
+  ];
+
+  List fuctionsButtons = [
+    Icon(
+      TablerIcons.percentage,
+      size: 40,
+      color: Colors.black,
+    ),
+    Icon(
+      TablerIcons.square_root,
+      size: 40,
+      color: Colors.black,
+    ),
+    Icon(
+      TablerIcons.superscript,
+      size: 40,
+      color: Colors.black,
+    ),
+    "1/x",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.blueGrey[50],
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          title: MyTextWidget(
-            text: "Cokolwiek",
-            color: Colors.black,
-            size: 20,
-          ),
-          centerTitle: true,
-          leading: const Icon(
-            Icons.menu,
+      backgroundColor: Colors.blueGrey[50],
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: MyTextWidget(
+          text: "CALCULATOR",
+          color: Colors.black,
+          size: 20,
+        ),
+        centerTitle: true,
+        leading: const Icon(
+          Icons.menu,
+          size: 40,
+          color: Colors.black,
+        ),
+        actions: const [
+          Icon(
+            Icons.history,
             size: 40,
             color: Colors.black,
           ),
-          actions: const [
-            Icon(
-              Icons.history,
-              size: 40,
-              color: Colors.black,
-            ),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            // crossAxisAlignment: CrossAxisAlignment.end, // to do Column zamiast ListView
             // mainAxisSize: MainAxisSize.min,
             // crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
 
             children: [
               Row(
@@ -71,54 +118,44 @@ class HomePage extends StatelessWidget {
                 thickness: 1.5,
                 color: Colors.grey,
               ),
-              Row(
-                children: [
-                  myButton(
-                    "%",
-                    () {
-                      print("Have a crappy day!");
-                    },
-                  ),
-                  myButton(
-                    "1",
-                    () {
-                      print("Have a crappy day!");
-                    },
-                  ),
-                  myButton(
-                    "2",
-                    () {
-                      print("Have a crappy day!");
-                    },
-                  ),
-                  myButton(
-                    "3",
-                    () {
-                      print("Have a crappy day!");
-                    },
-                  ),
-                ],
-              )
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 4,
+                  itemBuilder: (ctxt, index) {
+                    return myButton(fuctionsButtons[index], () {});
+                  }),
+              GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  reverse: true,
+                  shrinkWrap: true,
+                  itemCount: listButtons.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4),
+                  itemBuilder: (contx, index) {
+                    return myButton(listButtons[index], () {});
+                  }),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget myButton(
-    String text,
+    buttonConntent,
     function,
   ) {
-    return Expanded(
-      child: MaterialButton(
-        elevation: 5,
-        color: Colors.white,
-        child: MyTextWidget(
-          color: Colors.black,
-          size: 25,
-          text: text,
-        ),
-        onPressed: function,
-      ),
+    return MaterialButton(
+      elevation: 5,
+      color: Colors.white,
+      child: (buttonConntent is String)
+          ? MyTextWidget(
+              color: Colors.black,
+              size: 25,
+              text: buttonConntent,
+            )
+          : buttonConntent,
+      onPressed: function,
     );
   }
 }
