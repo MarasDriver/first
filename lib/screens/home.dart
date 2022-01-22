@@ -226,7 +226,7 @@ class _HomePageState extends State<HomePage> {
                         if (icon.icon == TablerIcons.square_root) {
                           setState(() {
                             double one = int.parse(equation!);
-                            sqrt(one);
+
                             double equation2 = sqrt(one);
                             equation = equation2.toStringAsFixed(5);
                             sumFunction();
