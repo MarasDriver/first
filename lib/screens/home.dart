@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -196,6 +197,13 @@ class _HomePageState extends State<HomePage> {
                           sum = "0";
                         });
                       }
+                      if (listButtons[index] is String &&
+                          listButtons[index] == "1/x") {
+                        setState(() {
+                          equation = equation!;
+                          sumFunction();
+                        });
+                      }
                       if (listButtons[index] is Icon) {
                         Icon icon = listButtons[index];
                         if (icon.icon == TablerIcons.backspace) {
@@ -205,6 +213,30 @@ class _HomePageState extends State<HomePage> {
                           });
                         } else if (icon.icon == TablerIcons.equal) {
                           sumFunction();
+                        }
+
+                        if (icon.icon == TablerIcons.percentage) {
+                          setState(() {
+                            equation = equation! + " " + " * 0.01";
+                            sumFunction();
+                            equation = equation! + "%";
+                          });
+                        }
+
+                        if (icon.icon == TablerIcons.square_root) {
+                          setState(() {
+                            double one = int.parse(equation!);
+                            sqrt(one);
+                            double equation2 = sqrt(one);
+                            equation = equation2.toStringAsFixed(5);
+                            sumFunction();
+                          });
+                        }
+                        if (icon.icon == TablerIcons.superscript) {
+                          setState(() {
+                            equation = equation! + "*" + equation!;
+                            sumFunction();
+                          });
                         }
                       }
                     }, index >= listButtons.length - 4 ? Colors.white : null);
@@ -224,7 +256,7 @@ class _HomePageState extends State<HomePage> {
     double eval = exp.evaluate(EvaluationType.REAL, cm);
 
     setState(() {
-      sum = eval.toString();
+      sum = eval.toStringAsFixed(5);
     });
   }
 
