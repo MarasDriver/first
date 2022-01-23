@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                   shrinkWrap: true,
                   itemCount: listButtons.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4),
+                      crossAxisCount: 4, childAspectRatio: 1.11),
                   itemBuilder: (contx, index) {
                     return myButton(listButtons[index], () {
                       //  || -> or
@@ -217,15 +217,17 @@ class _HomePageState extends State<HomePage> {
 
                         if (icon.icon == TablerIcons.percentage) {
                           setState(() {
-                            equation = equation! + " " + " * 0.01";
-                            sumFunction();
-                            equation = equation! + "%";
+                            sum = (double.parse(sum!) * 0.01).toString();
+                            // equation = "($equation) * 0.01";
+                            // sumFunction();
+                            // equation = equation! + "%";
                           });
                         }
 
                         if (icon.icon == TablerIcons.square_root) {
                           setState(() {
                             double one = double.parse(equation!);
+                            // double one = double.parse(sum!);
                             sqrt(one);
                             double equation2 = sqrt(one);
                             equation = equation2.toStringAsFixed(5);
@@ -234,6 +236,7 @@ class _HomePageState extends State<HomePage> {
                         }
                         if (icon.icon == TablerIcons.superscript) {
                           setState(() {
+                            // equation = "($equation)^2";
                             equation = equation! + "*" + equation!;
                             sumFunction();
                           });
